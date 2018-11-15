@@ -1,36 +1,36 @@
-! function(e) {
+! function (e) {
     "use strict";
     var t = e,
         i = t.document,
         o = "cbinstance";
     var n = {
-            get: function(e) {
-                return decodeURIComponent(i.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(e).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null
-            },
-            set: function(e, t, o, n, s, r) {
-                if (!e || /^(?:expires|max\-age|path|domain|secure)$/i.test(e)) return !1;
-                var a = "";
-                if (o) switch (o.constructor) {
-                    case Number:
-                        a = o === 1 / 0 ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + o;
-                        break;
-                    case String:
-                        a = "; expires=" + o;
-                        break;
-                    case Date:
-                        a = "; expires=" + o.toUTCString()
-                }
-                return i.cookie = encodeURIComponent(e) + "=" + encodeURIComponent(t) + a + (s ? "; domain=" + s : "") + (n ? "; path=" + n : "") + (r ? "; secure" : ""), !0
-            },
-            has: function(e) {
-                return new RegExp("(?:^|;\\s*)" + encodeURIComponent(e).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=").test(i.cookie)
-            },
-            remove: function(e, t, o) {
-                return !(!e || !this.has(e)) && (i.cookie = encodeURIComponent(e) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (o ? "; domain=" + o : "") + (t ? "; path=" + t : ""), !0)
-            }
+        get: function (e) {
+            return decodeURIComponent(i.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(e).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null
         },
+        set: function (e, t, o, n, s, r) {
+            if (!e || /^(?:expires|max\-age|path|domain|secure)$/i.test(e)) return !1;
+            var a = "";
+            if (o) switch (o.constructor) {
+                case Number:
+                    a = o === 1 / 0 ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + o;
+                    break;
+                case String:
+                    a = "; expires=" + o;
+                    break;
+                case Date:
+                    a = "; expires=" + o.toUTCString()
+            }
+            return i.cookie = encodeURIComponent(e) + "=" + encodeURIComponent(t) + a + (s ? "; domain=" + s : "") + (n ? "; path=" + n : "") + (r ? "; secure" : ""), !0
+        },
+        has: function (e) {
+            return new RegExp("(?:^|;\\s*)" + encodeURIComponent(e).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=").test(i.cookie)
+        },
+        remove: function (e, t, o) {
+            return !(!e || !this.has(e)) && (i.cookie = encodeURIComponent(e) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (o ? "; domain=" + o : "") + (t ? "; path=" + t : ""), !0)
+        }
+    },
         s = {
-            merge: function() {
+            merge: function () {
                 var e, t = {},
                     i = 0,
                     o = arguments.length;
@@ -39,7 +39,7 @@
                     for (e in arguments[i]) Object.prototype.hasOwnProperty.call(arguments[i], e) && (t[e] = arguments[i][e]);
                 return t
             },
-            str2bool: function(e) {
+            str2bool: function (e) {
                 switch ((e = "" + e).toLowerCase()) {
                     case "false":
                     case "no":
@@ -50,12 +50,12 @@
                         return !0
                 }
             },
-            fade_in: function(e) {
-                e.style.opacity < 1 && (e.style.opacity = (parseFloat(e.style.opacity) + .05).toFixed(2), t.setTimeout(function() {
+            fade_in: function (e) {
+                e.style.opacity < 1 && (e.style.opacity = (parseFloat(e.style.opacity) + .05).toFixed(2), t.setTimeout(function () {
                     s.fade_in(e)
                 }, 50))
             },
-            get_data_attribs: function(e) {
+            get_data_attribs: function (e) {
                 var t = {};
                 if (Object.prototype.hasOwnProperty.call(e, "dataset")) t = e.dataset;
                 else {
@@ -68,7 +68,7 @@
                 }
                 return t
             },
-            normalize_keys: function(e) {
+            normalize_keys: function (e) {
                 var t = {};
                 for (var i in e)
                     if (Object.prototype.hasOwnProperty.call(e, i)) {
@@ -77,7 +77,7 @@
                     }
                 return t
             },
-            camelize: function(e) {
+            camelize: function (e) {
                 for (var t = "-", i = e.indexOf(t); - 1 != i;) {
                     var o = i === e.length - 1,
                         n = o ? "" : e[i + 1],
@@ -87,63 +87,63 @@
                 }
                 return e
             },
-            find_script_by_id: function(e) {
+            find_script_by_id: function (e) {
                 for (var t = i.getElementsByTagName("script"), o = 0, n = t.length; o < n; o++)
                     if (e === t[o].id) return t[o];
                 return null
             }
         },
         r = s.find_script_by_id("cookieinfo"),
-        a = e.cookieinfo = function(e) {
+        a = e.cookieinfo = function (e) {
             this.init(e)
         };
     a.prototype = {
         cookiejar: n,
-        init: function(t) {
+        init: function (t) {
             this.inserted = !1, this.closed = !1, this.test_mode = !1;
             if (this.default_options = {
-                    cookie: "we-love-cookies",
-                    closeText: "Accetta e prosegui",
-                    cookiePath: "/",
-                    debug: !1,
-                    expires: 1 / 0,
-                    zindex: 1e20,
-                    mask: !1,
-                    maskOpacity: .5,
-                    maskBackground: "#999",
-                    height: "auto",
-                    minHeight: "21px",
-                    bg: "#eee",
-                    fg: "#333",
-                    link: "#31A8F0",
-                    divlink: "#000",
-                    divlinkbg: "#ff4c4c",
-                    position: "bottom",
-                    message: "Questo sito fa uso di cookie per migliorare l&#8217;esperienza di navigazione degli utenti e per raccogliere informazioni sull&#8217;utilizzo del sito stesso. Utilizziamo sia cookie tecnici sia cookie di parti terze per inviare messaggi promozionali sulla base dei comportamenti degli utenti. Proseguendo nella navigazione si accetta l&#8217;uso dei cookie; in caso contrario &#232; possibile abbandonare il sito",
-                    linkmsg: "Pi&#249; informazioni",
-                    scriptmsg: "GVS Cookies info",
-                    moreinfo: "Informativa.html",
-                    scriptinfo: "Informativa.html",
-                    tracking: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
-                    effect: null,
-                    fontSize: "14px",
-                    fontFamily: "Oxygen, sans-serif",
-                    instance: o,
-                    textAlign: "center",
-                    acceptOnScroll: !1
-                }, this.options = this.default_options, this.script_el = r, this.script_el) {
+                cookie: "we-love-cookies",
+                closeText: "Accetta e prosegui",
+                cookiePath: "/",
+                debug: !1,
+                expires: 1 / 0,
+                zindex: 1e20,
+                mask: !1,
+                maskOpacity: .5,
+                maskBackground: "#999",
+                height: "auto",
+                minHeight: "21px",
+                bg: "#eee",
+                fg: "#333",
+                link: "#31A8F0",
+                divlink: "#000",
+                divlinkbg: "#ff4c4c",
+                position: "bottom",
+                message: "Questo sito fa uso di cookie per migliorare l&#8217;esperienza di navigazione degli utenti e per raccogliere informazioni sull&#8217;utilizzo del sito stesso. Utilizziamo sia cookie tecnici sia cookie di parti terze per inviare messaggi promozionali sulla base dei comportamenti degli utenti. Proseguendo nella navigazione si accetta l&#8217;uso dei cookie; in caso contrario &#232; possibile abbandonare il sito",
+                linkmsg: "",
+                scriptmsg: "GVS Cookies info",
+                moreinfo: "Informativa.html",
+                scriptinfo: "Informativa.html",
+                tracking: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                effect: null,
+                fontSize: "14px",
+                fontFamily: "Oxygen, sans-serif",
+                instance: o,
+                textAlign: "center",
+                acceptOnScroll: !1
+            }, this.options = this.default_options, this.script_el = r, this.script_el) {
                 var i = s.get_data_attribs(this.script_el);
                 this.options = s.merge(this.options, i)
             }
             t && (t = s.normalize_keys(t), this.options = s.merge(this.options, t)), o = this.options.instance, this.options.zindex = parseInt(this.options.zindex, 10), this.options.mask = s.str2bool(this.options.mask), "string" == typeof this.options.expires && "function" == typeof e[this.options.expires] && (this.options.expires = e[this.options.expires]), "function" == typeof this.options.expires && (this.options.expires = this.options.expires()), this.script_el && this.run()
         },
-        log: function() {
+        log: function () {
             "undefined" != typeof console && console.log.apply(console, arguments)
         },
-        run: function() {
+        run: function () {
             if (!this.agreed()) {
                 var e = this;
-                ! function(e, t) {
+                ! function (e, t) {
                     var i = !1,
                         o = !0,
                         n = e.document,
@@ -151,10 +151,10 @@
                         r = n.addEventListener ? "addEventListener" : "attachEvent",
                         a = n.addEventListener ? "removeEventListener" : "detachEvent",
                         c = n.addEventListener ? "" : "on",
-                        l = function(o) {
+                        l = function (o) {
                             "readystatechange" == o.type && "complete" != n.readyState || (("load" == o.type ? e : n)[a](c + o.type, l, !1), !i && (i = !0) && t.call(e, o.type || o))
                         },
-                        p = function() {
+                        p = function () {
                             try {
                                 s.doScroll("left")
                             } catch (e) {
@@ -167,17 +167,17 @@
                         if (n.createEventObject && s.doScroll) {
                             try {
                                 o = !e.frameElement
-                            } catch (e) {}
+                            } catch (e) { }
                             o && p()
                         }
                         n[r](c + "DOMContentLoaded", l, !1), n[r](c + "readystatechange", l, !1), e[r](c + "load", l, !1)
                     }
-                }(t, function() {
+                }(t, function () {
                     e.insert()
                 })
             }
         },
-        build_viewport_mask: function() {
+        build_viewport_mask: function () {
             var e = null;
             if (!0 === this.options.mask) {
                 var t = this.options.maskOpacity,
@@ -187,25 +187,25 @@
             }
             return e
         },
-        agree: function() {
+        agree: function () {
             return this.cookiejar.set(this.options.cookie, 1, this.options.expires, this.options.cookiePath), !0
         },
-        agreed: function() {
+        agreed: function () {
             return this.cookiejar.has(this.options.cookie)
         },
-        close: function() {
+        close: function () {
             return this.inserted && (this.closed || (this.element && this.element.parentNode.removeChild(this.element), this.element_mask && this.element_mask.parentNode.removeChild(this.element_mask), this.closed = !0)), this.closed
         },
-        agree_and_close: function() {
+        agree_and_close: function () {
             return this.agree(), this.close()
         },
-        cleanup: function() {
+        cleanup: function () {
             return this.close(), this.unload()
         },
-        unload: function() {
+        unload: function () {
             return this.script_el && this.script_el.parentNode.removeChild(this.script_el), e[o] = void 0, !0
         },
-        insert: function() {
+        insert: function () {
             this.element_mask = this.build_viewport_mask();
             var e = this.options.zindex;
             this.element_mask && (e += 1);
@@ -226,11 +226,11 @@
             }
             a.src = this.options.tracking, a.style.display = "none";
             var l = this;
-            c(r, "click", function() {
+            c(r, "click", function () {
                 l.agree_and_close()
-            }), this.element_mask && (c(this.element_mask, "click", function() {
+            }), this.element_mask && (c(this.element_mask, "click", function () {
                 l.agree_and_close()
-            }), i.body.appendChild(this.element_mask)), this.options.acceptOnScroll && c(window, "scroll", function() {
+            }), i.body.appendChild(this.element_mask)), this.options.acceptOnScroll && c(window, "scroll", function () {
                 l.agree_and_close()
             }), i.body.appendChild(this.element), this.inserted = !0, "fade" === this.options.effect ? (this.element.style.opacity = 0, s.fade_in(this.element)) : this.element.style.opacity = 1
         }
